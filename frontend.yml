@@ -6,8 +6,10 @@
   tasks:
     - name: Install Nginx
       ansible.builtin.dnf:
-        name: nginx
         state: present
+        name: 
+          - nginx
+          - unzip
 
     - name: copy nginx conf file
       ansible.builtin.copy:
