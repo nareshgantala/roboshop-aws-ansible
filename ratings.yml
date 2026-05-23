@@ -1,0 +1,56 @@
+---
+- hosts: all
+  name: setup ratings service
+  gather_facts: false
+  become: true
+  tasks: 
+    - name: Install Python 3
+      anible.builtin.dnf:
+        name:
+          - python3
+          - python3-pip
+          - mysql8.4
+
+    - name: copy shipping service
+      ansible.biltin.copy:
+        src: ratings.service
+        dest: /etc/systemd/system/ratings.service
+
+    - name: create app user
+      ansible.builtin.user:
+        name: appuser
+        shell: /bin/false
+
+    - name: create app direcotry
+      ansible.builtin.file:
+        path: /app
+        owner: appuser
+        group: appuser
+        mode: o-rwx
+        state: directory
+
+    - name: download code
+      ansible.builtin.unarchive:
+        src: https://raw.githubusercontent.com/raghudevopsb89/roboshop-microservices/main/artifacts/ratings.zip
+        dest: /app
+        remote_src: yes
+
+    - name: install dependencies
+      ansible.builtin.shell: pip3 install -r requirements.txt cryptography
+
+    - name: setup schema
+      ansible.builtin.shell: mysql -h <MYSQL-SERVER-IP> -u root -pRoboShop@1 < db/schema.sql
+      args:
+          chdir: /app
+
+    - name: setup app user schema
+      ansible.builtin.shell: mysql -h <MYSQL-SERVER-IP> -u root -pRoboShop@1 < db/app-user.sql
+      args:
+          chdir: /app   
+          
+    - name: start and enable service
+      ansible.builtin.systemd_service:
+        name: ratings
+        state: restarted
+        enabled: yes
+        daemon_reload: yes      
