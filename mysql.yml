@@ -1,0 +1,26 @@
+---
+- hosts: all
+  name: setup frontend
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Install Nginx
+      ansible.builtin.dnf:
+        state: present
+        name: mysql8.4-server
+
+    - name: enable & start service
+      ansible.builtin.systemd_service:
+        name: mysqld
+        state: restarted
+        enabled: true
+        deamon_reload: true 
+
+    - name: Set root password
+      ansible.builtin.shell: |
+        mysql -u root -e "
+        CREATE USER 'root'@'%' IDENTIFIED BY 'RoboShop@1';
+        GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+        ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';
+        FLUSH PRIVILEGES;
+        "
