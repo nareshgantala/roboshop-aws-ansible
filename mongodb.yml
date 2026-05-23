@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  name: setup frontend
+  name: setup mongodb
   gather_facts: false
   become: true
   tasks:
