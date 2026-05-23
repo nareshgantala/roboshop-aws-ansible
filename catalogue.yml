@@ -35,6 +35,7 @@
       ansible.builtin.unarchive:
         src: https://raw.githubusercontent.com/raghudevopsb89/roboshop-microservices/main/artifacts/catalogue.zip
         dest: /app
+        remote_src: yes
 
     - name: build code
       ansible.builtin.shell: |
@@ -65,4 +66,3 @@
         enabled: yes
         deamon_reload: yes
 
-        

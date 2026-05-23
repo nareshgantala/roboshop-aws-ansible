@@ -1,0 +1,49 @@
+---
+- hosts: all
+  name: setup catalogue service
+  gather_facts: false
+  become: true
+  tasks:
+    - name: setup nodejs repo
+      ansible.builtin.shell: curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
+
+    - name: copy user service
+      ansible.biltin.copy:
+        src: user.service
+        dest: /etc/systemd/system/user.service
+
+
+    - name: install nodejs
+      ansible.bultin.dnf:
+        name: nodejs
+        state: present
+
+    - name: create app user
+      ansible.builtin.user:
+        name: appuser
+        shell: /bin/false
+
+    - name: create app direcotry
+      ansible.builtin.file:
+        path: /app
+        owner: appuser
+        group: appuser
+        mode: o-rwx
+        state: directory
+
+    - name: download code
+      ansible.builtin.unarchive:
+        src: https://raw.githubusercontent.com/raghudevopsb89/roboshop-microservices/main/artifacts/user.zip
+        dest: /app
+        remote_src: yes
+
+    - name: build code
+      ansible.builtin.shell: npm install --production
+
+    - name: user service enable and restart
+      ansible.builtin.systemd_service:
+        name: user
+        enabled: true
+        state: restarted
+        deamon_reload: true
+
