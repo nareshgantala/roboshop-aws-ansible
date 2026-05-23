@@ -23,4 +23,4 @@
         name: mongod
         state: restarted
         enabled: yes
-        deamon_reload: true
+        daemon_reload: true

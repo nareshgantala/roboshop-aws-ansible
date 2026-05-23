@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  name: setup catalogue service
+  name: setup user service
   gather_facts: false
   become: true
   tasks:
@@ -45,5 +45,5 @@
         name: user
         enabled: true
         state: restarted
-        deamon_reload: true
+        daemon_reload: true
 
