@@ -14,7 +14,7 @@
         name: mysqld
         state: restarted
         enabled: true
-        deamon_reload: true 
+        daemon_reload: true 
 
     - name: Set root password
       ansible.builtin.shell: |
