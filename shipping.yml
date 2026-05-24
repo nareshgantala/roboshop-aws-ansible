@@ -48,12 +48,12 @@
         remote_src: yes
 
     - name: setup schema
-      ansible.builtin.shell: mysql -h <MYSQL-SERVER-IP> -u root -pRoboShop@1 < db/schema.sql
+      ansible.builtin.shell: mysql -h mysql.naresh-training.online -u root -pRoboShop@1 < db/schema.sql
       args:
           chdir: /app
 
     - name: setup app user schema
-      ansible.builtin.shell: mysql -h <MYSQL-SERVER-IP> -u root -pRoboShop@1 < db/app-user.sql
+      ansible.builtin.shell: mysql -h mysql.naresh-training.online -u root -pRoboShop@1 < db/app-user.sql
       args:
           chdir: /app        
 
