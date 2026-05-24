@@ -11,7 +11,7 @@
           - python3-pip
 
     - name: copy payment service
-      ansible.biltin.copy:
+      ansible.builtin.copy:
         src: payment.service
         dest: /etc/systemd/system/payment.service
 

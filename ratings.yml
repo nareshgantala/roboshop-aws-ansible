@@ -12,7 +12,7 @@
           - mysql8.4
 
     - name: copy shipping service
-      ansible.biltin.copy:
+      ansible.builtin.copy:
         src: ratings.service
         dest: /etc/systemd/system/ratings.service
 

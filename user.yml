@@ -8,13 +8,13 @@
       ansible.builtin.shell: curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
 
     - name: copy user service
-      ansible.biltin.copy:
+      ansible.builtin.copy:
         src: user.service
         dest: /etc/systemd/system/user.service
 
 
     - name: install nodejs
-      ansible.bultin.dnf:
+      ansible.builtin.dnf:
         name: nodejs
         state: present
 
