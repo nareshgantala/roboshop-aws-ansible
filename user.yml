@@ -15,7 +15,9 @@
 
     - name: install nodejs
       ansible.builtin.dnf:
-        name: nodejs
+        name: 
+          - nodejs
+          - unzip
         state: present
 
     - name: create app user
