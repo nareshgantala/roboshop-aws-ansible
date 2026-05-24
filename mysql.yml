@@ -16,11 +16,18 @@
         enabled: true
         daemon_reload: true 
 
-    - name: Set root password
+    - name: Check if MySQL password is already configured
+      ansible.builtin.shell: mysql -u root -p'RoboShop@1' -e "SHOW DATABASES;"
+      register: db_check
+      ignore_errors: true
+      changed_when: false
+
+    - name: Set root password (Only runs if not already set)
       ansible.builtin.shell: |
         mysql -u root -e "
-        CREATE USER 'root'@'%' IDENTIFIED BY 'RoboShop@1';
-        GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
         ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';
+        CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'RoboShop@1';
+        GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
         FLUSH PRIVILEGES;
         "
+      when: db_check.failed
