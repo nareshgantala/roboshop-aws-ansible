@@ -41,7 +41,8 @@
 
     - name: build code
       ansible.builtin.shell: npm install --production
-
+      args:
+        chdir: /app
     - name: user service enable and restart
       ansible.builtin.systemd_service:
         name: user

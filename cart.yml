@@ -40,6 +40,8 @@
 
     - name: build code
       ansible.builtin.shell: npm install --production
+      args:
+        chdir: /app
 
     - name: cart service enable and restart
       ansible.builtin.systemd_service:

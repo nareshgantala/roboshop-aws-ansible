@@ -38,7 +38,8 @@
 
     - name: install dependencies
       ansible.builtin.shell: pip3 install -r requirements.txt cryptography
-
+      args:
+        chdir: /app
     - name: setup schema
       ansible.builtin.shell: mysql -h mysql.naresh-training.online -u root -pRoboShop@1 < db/schema.sql
       args:

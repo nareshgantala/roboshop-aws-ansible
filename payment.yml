@@ -37,6 +37,8 @@
 
     - name: install dependencies
       ansible.builtin.shell: pip3 install -r requirements.txt
+      args:
+        chdir: /app      
 
     - name: start and enable service
       ansible.builtin.systemd_service:
