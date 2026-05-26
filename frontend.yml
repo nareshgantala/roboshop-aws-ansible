@@ -1,8 +1,9 @@
 ---
-- hosts: all
+- hosts: localhost
   name: setup frontend
   gather_facts: false
   become: true
+  connection: local
   tasks:
     - name: Install Nginx
       ansible.builtin.dnf:
