@@ -43,7 +43,11 @@
         go mod tidy
         CGO_ENABLED=0 go build -o /app/catalogue .
       args:
-          chdir: /app
+        chdir: /app
+      environment:
+        HOME: /root   # Or /home/ec2-user depending on which user runs the service
+        GOPATH: /root/go
+        GOMODCACHE: /root/go/pkg/mod
 
     - name: setup schema
       ansible.builtin.shell: mysql -h mysql.naresh-training.online -u root -pRoboShop@1 < db/schema.sql
